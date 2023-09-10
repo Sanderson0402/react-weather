@@ -9,7 +9,7 @@ function App() {
   const [currentCity, setCurrentCity] = useState('Rio de Janeiro');
   const [countryName, setCountryName] = useState('');
   const [weatherData, setWeatherData] = useState(null);
-  const apiKey = 'dae03b9785fe94fb3713f7e1057b7a1e';
+  const apiKey = 'SUA KEY';
 
   const handleCityChange = (event) => {
     setCityName(event.target.value);
