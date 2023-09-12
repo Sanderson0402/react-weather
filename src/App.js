@@ -9,6 +9,7 @@ function App() {
   const [currentCity, setCurrentCity] = useState('Rio de Janeiro');
   const [countryName, setCountryName] = useState('');
   const [weatherData, setWeatherData] = useState(null);
+  const [weatherBackground, setWeatherBackground] = useState('');
   const apiKey = 'SUA KEY';
 
   const handleCityChange = (event) => {
@@ -20,6 +21,7 @@ function App() {
     setCityName('');
   };
 
+  //consumindo API
   useEffect(() => {
     async function fetchWeatherData() {
       try {
@@ -44,7 +46,7 @@ function App() {
     }
   }, [apiKey, currentCity]);
   
-  //data do tempo!!
+
   const formatWeatherData = () => {
     if (weatherData) {
       const currentWeather = weatherData.list.find((item) => {
@@ -56,12 +58,12 @@ function App() {
       if (currentWeather) {
         const main = {
           country: weatherData.city.country,
-          tempMin: currentWeather.main.temp_min,
-          tempMax: currentWeather.main.temp_max,
+          tempMin: (currentWeather.main.temp_min - 273.15).toFixed(1), 
+          tempMax: (currentWeather.main.temp_max - 273.15).toFixed(1),
           rain: currentWeather.rain ? currentWeather.rain['3h'] : 0,
           windSpeed: currentWeather.wind.speed,
-          tempNow: currentWeather.main.temp,
-          feelsLike: currentWeather.main.feels_like,
+          tempNow: (currentWeather.main.temp - 273.15).toFixed(1),
+          feelsLike: (currentWeather.main.feels_like - 273.15).toFixed(1),
           condition: currentWeather.weather[0].main.toLowerCase(),
         };
 
@@ -74,9 +76,39 @@ function App() {
 
   const mainWeather = formatWeatherData();
 
+  //mudando o background de acordo com a condição meteorologica
+  useEffect(() => {
+    if (mainWeather) {
+      const weatherCondition = mainWeather.condition.toLowerCase();
+
+      switch (weatherCondition) {
+        case 'clear':
+          setWeatherBackground(styles.weatherClear);
+          break;
+        case 'mist':
+        case 'haze':
+        case 'fog':
+        case 'clouds':
+          setWeatherBackground(styles.weatherClouds);
+          break;
+        case 'storm':
+        case 'rain':
+        case 'drizzle':
+          setWeatherBackground(styles.weatherRain);
+          break;
+        case 'snow':
+          setWeatherBackground(styles.weatherSnow);
+          break;
+        default:
+          setWeatherBackground('');
+          break;
+      }
+    }
+  }, [mainWeather]);
+
   return (
     <div>
-      <div className={styles.App}>
+      <div className={`${styles.App} ${weatherBackground}`}>
       <Input
         cityName={cityName}
         handleCityChange={handleCityChange}
