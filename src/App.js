@@ -26,7 +26,7 @@ function App() {
     async function fetchWeatherData() {
       try {
         const response = await fetch(
-          `http://api.openweathermap.org/data/2.5/forecast?q=${currentCity}&appid=${apiKey}`
+          'http://api.openweathermap.org/data/2.5/forecast?q=${currentCity}&appid=${apiKey}&units=metric'
         );
 
         if (response.ok) {
@@ -58,12 +58,12 @@ function App() {
       if (currentWeather) {
         const main = {
           country: weatherData.city.country,
-          tempMin: (currentWeather.main.temp_min - 273.15).toFixed(1), 
-          tempMax: (currentWeather.main.temp_max - 273.15).toFixed(1),
+          tempMin: (currentWeather.main.temp_min).toFixed(1), 
+          tempMax: (currentWeather.main.temp_max).toFixed(1),
           rain: currentWeather.rain ? currentWeather.rain['3h'] : 0,
           windSpeed: currentWeather.wind.speed,
-          tempNow: (currentWeather.main.temp - 273.15).toFixed(1),
-          feelsLike: (currentWeather.main.feels_like - 273.15).toFixed(1),
+          tempNow: (currentWeather.main.temp).toFixed(1),
+          feelsLike: (currentWeather.main.feels_like).toFixed(1),
           condition: currentWeather.weather[0].main.toLowerCase(),
         };
 
