@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import WeatherDisplay from './weatherDisplay';
 import Input from './input';
+import WeatherDisplay from './weatherDisplay';
+import ExtendedForecast from './extendedForecast';
 import styles from './css.module.css';
  
 
@@ -10,7 +11,7 @@ function App() {
   const [countryName, setCountryName] = useState('');
   const [weatherData, setWeatherData] = useState(null);
   const [weatherBackground, setWeatherBackground] = useState('');
-  const apiKey = 'SUA KEY';
+  const apiKey = 'dae03b9785fe94fb3713f7e1057b7a1e';
 
   const handleCityChange = (event) => {
     setCityName(event.target.value);
@@ -26,7 +27,7 @@ function App() {
     async function fetchWeatherData() {
       try {
         const response = await fetch(
-          'http://api.openweathermap.org/data/2.5/forecast?q=${currentCity}&appid=${apiKey}&units=metric'
+          `http://api.openweathermap.org/data/2.5/forecast?q=${currentCity}&appid=${apiKey}&units=metric`
         );
 
         if (response.ok) {
@@ -41,12 +42,12 @@ function App() {
       }
     }
 
-    if (currentCity) {
+    if (currentCity && currentCity.trim() !== '') {
       fetchWeatherData();
     }
   }, [apiKey, currentCity]);
   
-
+  //formatando previsão atual
   const formatWeatherData = () => {
     if (weatherData) {
       const currentWeather = weatherData.list.find((item) => {
@@ -75,6 +76,33 @@ function App() {
   };
 
   const mainWeather = formatWeatherData();
+
+  //formatando previsão estendida
+  const formatExtendedWeatherData = () => {
+    if (weatherData) {
+      const upcomingWeather = weatherData.list.slice(1, 6);
+  
+      if (upcomingWeather.length > 0) {
+        const formattedWeather = upcomingWeather.map((item) => {
+          const forecastTime = new Date(item.dt * 1000); 
+  
+          return {
+            forecastTime: forecastTime.toLocaleString(),
+            tempMin: item.main.temp_min.toFixed(1),
+            tempMax: item.main.temp_max.toFixed(1),
+            tempNow: item.main.temp.toFixed(1),
+            condition: item.weather[0].main.toLowerCase(), 
+          };
+        });
+  
+        return formattedWeather;
+      }
+    }
+  
+    return null;
+  };
+
+  const ExtendedWeather = formatExtendedWeatherData();
 
   //mudando o background de acordo com a condição meteorologica
   useEffect(() => {
@@ -119,6 +147,7 @@ function App() {
         countryName={countryName}
         mainWeather={mainWeather}
       />
+       <ExtendedForecast formattedWeather={ExtendedWeather} />
       </div>
     </div>
   );
