@@ -1,35 +1,8 @@
 import React from 'react';
+import WeatherIcon from './weatherIcon';
 import styles from './css.module.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSun, faCloud, faCloudRain, faSnowflake} from '@fortawesome/free-solid-svg-icons';
 
 function WeatherDisplay({ currentCity, countryName, mainWeather }) {
-
-  const getWeatherIcon = () => {
-    if (mainWeather) {
-      switch (mainWeather.condition.toLowerCase()) {
-        case 'clear':
-          return <FontAwesomeIcon icon={faSun} />;
-        case 'mist':
-        case 'haze':
-        case 'fog':
-        case 'clouds':
-          return <FontAwesomeIcon icon={faCloud} />;
-        case 'storm':
-        case 'rain':
-        case 'drizzle':
-          return <FontAwesomeIcon icon={faCloudRain} />;
-        case 'snow':
-          return <FontAwesomeIcon icon={faSnowflake} />;
-        default:
-          return null;
-      }
-    }
-
-    return null;
-  };
-
-  const weatherIcon = getWeatherIcon();
 
   return (
     <div className={styles.weatherDisplay}>
@@ -38,7 +11,7 @@ function WeatherDisplay({ currentCity, countryName, mainWeather }) {
       </h2>
       {mainWeather ? (
         <div>
-          <div className={styles.icon}>{weatherIcon}</div>
+          <WeatherIcon condition={mainWeather.condition}/>
           <p className={styles.weatherTemp}>{mainWeather.tempNow} ºC</p>
           <div>
           <p>Feels Like: {mainWeather.feelsLike} ºC</p>
