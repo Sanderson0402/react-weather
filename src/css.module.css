@@ -1,13 +1,13 @@
-* {
-  transition: all 0.3s ease;
-} 
+  * {
+    transition: all 0.3s ease;
+  } 
 
-.App {
-  display: flex;
-  flex-direction: column; 
-  justify-content: center;
-  height: 110vh;
-}
+  .App {
+    display: flex;
+    flex-direction: column; 
+    justify-content: center;
+    height: 110vh;
+  }
 
   .inputContainer {
     margin-left: 10px;
@@ -50,14 +50,66 @@
     font-family: Arial, sans-serif;
     font-weight: bold;
   }
+
+  .extendedWeatherDisplay {
+    display: flex;
+    border-radius: 6px;
+    overflow-x: auto;
+    color: white;
+    background-color: rgba(72, 77, 76, 0.30);
+    margin-top: 30px;
+    margin-right: auto;
+    margin-left: auto;
+    width: 40%;
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+  }
+
+  .weatherCard {
+    border-right: 2px solid  rgba(114, 130, 126, 0.096);
+    border-left: 2px solid  rgba(114, 130, 126, 0.096);
+    font-size: 15px;
+  }
+
+  .weatherCard p {
+    margin-left: 10px;
+  }
+  
+  .icon {
+    font-size: 76px;
+  }
+
+  .iconP {
+    font-size: 20px;
+    padding-left: 40px;
+  }
   
   @media screen and (max-width: 420px) {
+    .App{
+      padding-top: 30px;
+      padding-bottom: 30px;
+      height: 130vh;
+    }
+
     .input {
       width: 90%;
     }
 
     .weatherDisplay{
       width: 90%;
+    }
+
+    .extendedWeatherDisplay{
+      width: 90%;
+    }
+
+    .weatherCard {
+      font-size: 13px;
+    }
+
+    .iconP {
+      font-size: 18px;
+      padding-left: 30px;
     }
   }
  
@@ -92,10 +144,6 @@
   .loading {
     text-align: center;
     color: white;
-  }
-
-  .icon {
-    font-size: 76px;
   }
 
   .weatherClear {
